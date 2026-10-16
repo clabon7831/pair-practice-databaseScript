@@ -1,52 +1,50 @@
-CREATE DATABASE IF NOT EXISTS comic_shop;
-USE comic_shop;
+CREATE DATABASE IF NOT EXISTS UniversityLibrary;
+USE UniversityLibrary;
 
-DROP TABLE IF EXISTS inventory;
-DROP TABLE IF EXISTS comics;
-DROP TABLE IF EXISTS publishers;
 
-CREATE TABLE publishers (
-    publisher_id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL
+CREATE TABLE departments (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    department VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE comics (
-    comic_id INT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(100) NOT NULL,
-    issue_number INT NOT NULL,
-    publisher_id INT NOT NULL,
-    FOREIGN KEY (publisher_id)
-        REFERENCES publishers(publisher_id)
+CREATE TABLE library_resources (
+    resource_id INT PRIMARY KEY AUTO_INCREMENT,
+    books VARCHAR (100) NOT NULL,
+    media VARCHAR(100) NOT NULL,
+	periodicals VARCHAR(100) NOT NULL,
+    special_formats VARCHAR(100) NOT NULL,
+    FOREIGN KEY (department_id)
+		REFERENCES departments(department_id)
 );
 
-CREATE TABLE inventory (
-    inventory_id INT PRIMARY KEY AUTO_INCREMENT,
-    comic_id INT NOT NULL,
-    quantity INT NOT NULL,
-    price DECIMAL(6,2) NOT NULL,
-    FOREIGN KEY (comic_id)
-        REFERENCES comics(comic_id)
+CREATE TABLE course_materials (
+    assigments VARCHAR (100),
+	exams VARCHAR (100),
+    lecture_notes VARCHAR (100),
+    slides VARCHAR (100),
+    FOREIGN KEY (department_id)
+		REFERENCES departments(department_id)
 );
 
-START TRANSACTION;
+SELECT *
+FROM course_materials;
 
-INSERT INTO publishers (name)
+ALTER TABLE departments
+RENAME COLUMN department_id TO id;
+
+INSERT INTO departments (department_id, department)
 VALUES
-    ('Marvel'),
-    ('DC');
-
-INSERT INTO comics (title, issue_number, publisher_id)
+    (1, 'Computer Science'),
+    (2, 'History');
+    
+INSERT INTO library_resources
+    (books, media, periodicals, special_formats, resource_id)
 VALUES
-    ('X-Men', 1, 1),
-    ('Batman', 1, 2);
-
-INSERT INTO inventory (comic_id, quantity, price)
+    ('Java Basics', 'Coding DVD', 'Technology Monthly', 'Audiobook', 1),
+    ('World History', 'History DVD', 'History Today', 'Large Print', 2);
+    
+INSERT INTO course_materials
+    (assigments, exams, lecture_notes, slides)
 VALUES
-    (1, 10, 4.99),
-    (2, 5, 3.99);
-
-COMMIT;
-
-SELECT * FROM publishers;
-SELECT * FROM comics;
-SELECT * FROM inventory;
+    ('Java Practice', 'Java Exam', 'Loops Notes', 'Java Slides'),
+    ('History Essay', 'History Exam', 'History Notes', 'History Slides');
