@@ -28,7 +28,6 @@ CREATE TABLE inventory (
         REFERENCES comics(comic_id)
 );
 
--- Add sample data in a transaction
 START TRANSACTION;
 
 INSERT INTO publishers (name)
@@ -48,7 +47,6 @@ VALUES
 
 COMMIT;
 
--- Check the data
 SELECT * FROM publishers;
 SELECT * FROM comics;
 SELECT * FROM inventory;
